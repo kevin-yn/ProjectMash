@@ -1,0 +1,6 @@
+<form action="{% url 'projects:detail' project.id%}" method="post">
+    {% csrf_token %}
+    <input name="project_name" type="text" placeholder="project_name" value="{{project.project_name}}">
+    <input name="project_link" type="text" placeholder="project_link" value="{{project.project_link}}">
+    <input type="submit" value="EDIT">
+</form>

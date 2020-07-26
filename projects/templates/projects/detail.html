@@ -1,1 +1,4 @@
 <h1>{{project.project_name}}</h1>
+<h2>{{project.project_link}}</h2>
+<a href="{% url 'projects:detail' project.id%}edit">EDIT</a>
+<a href="{% url 'projects:detail' project.id%}delete">DELETE</a>
