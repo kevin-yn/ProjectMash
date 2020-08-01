@@ -1,4 +1,16 @@
-<h1>{{project.project_name}}</h1>
-<h2>{{project.project_link}}</h2>
-<a href="{% url 'projects:detail' project.id%}edit">EDIT</a>
-<a href="{% url 'projects:detail' project.id%}delete">DELETE</a>
+{% include "./partials/header.html" %}
+
+
+
+<div class="container">
+    <h1>{{project.project_name}}</h1>
+    <h3>{{project.project_summary}}</h3>
+    <h4>{{project.project_backendLanguage}}</h4>
+    <a href="{{project.project_link}}">demo</a><br>
+    <a class="btn btn-primary" href="{% url 'projects:detail' project.id%}edit">EDIT</a> 
+    <a class="btn btn-danger" href="{% url 'projects:detail' project.id%}delete">DELETE</a>
+</div>
+
+
+
+{% include "./partials/footer.html" %}

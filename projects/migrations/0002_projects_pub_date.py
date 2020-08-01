@@ -17,4 +17,8 @@ class Migration(migrations.Migration):
             field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='date published'),
             preserve_default=False,
         ),
+        migrations.RemoveField(
+            model_name='projects',
+            name='pub_date',
+        ),
     ]
