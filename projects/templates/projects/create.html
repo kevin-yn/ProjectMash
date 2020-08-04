@@ -2,7 +2,7 @@
 
 <div class="container">
     <h1>CREATE NEW PROJECT</h1>
-    <form action="{% url 'projects:index'%}" method="post">
+    <form action="{% url 'projects:index'%}" name="createForm" onsubmit="return validateForm()" method="post">
         {% csrf_token %}
         <label for="">Project Name</label>
         <input name="project_name" type="text" placeholder="project_name"><br>
@@ -15,6 +15,31 @@
         <input type="submit" value="CREATE">
     </form>
 </div>
+
+<script type="text/javascript">
+  function validateForm() {
+    project_name = document.forms["createForm"]["project_name"].value;
+    project_summary = document.forms["createForm"]["project_summary"].value;
+    project_backendLanguage = document.forms["createForm"]["project_backendLanguage"].value;
+    project_link = document.forms["createForm"]["project_link"].value;
+    if (project_name == "") {
+      alert("Project name cannot be empty.");
+      return false;
+    }
+    if (project_summary == "") {
+      alert("Project summary cannot be empty.");
+      return false;
+    }
+    if (project_backendLanguage == "") {
+      alert("Project back-end language cannot be empty.");
+      return false;
+    }
+    if (project_link == "") {
+      alert("Project link cannot be empty.");
+      return false;
+    }
+  }
+</script>
 
 
 {% include "./partials/footer.html" %}
