@@ -6,6 +6,7 @@ from django.views import generic
 from .models import Projects, Comparison_Pair
 from django.db import connection
 from .generate_comparison_pair import generate
+import random
 
 def index(request):
     if request.method == 'GET':
@@ -88,10 +89,14 @@ def generate_view(request):
 
 def display_vote_page(request):
     template = loader.get_template('projects/vote.html')
+    # from the list of pair, randomly select one pair
+    comparison_pairs = Comparison_Pair.objects.raw(
+        'SELECT * FROM projects_comparison_pair WHERE count = (SELECT MIN(count) FROM projects_comparison_pair)')
     context = {
-
+        'comparison_pair' : comparison_pairs[random.randint(0, len(list(comparison_pairs)) - 1)],
     }
-    # return HttpResponseRedirect(reverse('projects:vote_process'))
+    # find the Comparison Pair that has the least count
+
     return HttpResponse(template.render(context, request))
 
 def vote_process(request):

@@ -17,28 +17,28 @@
 </div>
 
 <script type="text/javascript">
-  function validateForm() {
-    project_name = document.forms["createForm"]["project_name"].value;
-    project_summary = document.forms["createForm"]["project_summary"].value;
-    project_backendLanguage = document.forms["createForm"]["project_backendLanguage"].value;
-    project_link = document.forms["createForm"]["project_link"].value;
-    if (project_name == "") {
-      alert("Project name cannot be empty.");
-      return false;
+    function validateForm() {
+        project_name = document.forms["createForm"]["project_name"].value;
+        project_summary = document.forms["createForm"]["project_summary"].value;
+        project_backendLanguage = document.forms["createForm"]["project_backendLanguage"].value;
+        project_link = document.forms["createForm"]["project_link"].value;
+        if (project_name == "") {
+            alert("Project name cannot be empty.");
+            return false;
+        }
+        if (project_summary == "") {
+            alert("Project summary cannot be empty.");
+            return false;
+        }
+        if (project_backendLanguage == "") {
+            alert("Project back-end language cannot be empty.");
+            return false;
+        }
+        if (project_link == "") {
+            alert("Project link cannot be empty.");
+            return false;
+        }
     }
-    if (project_summary == "") {
-      alert("Project summary cannot be empty.");
-      return false;
-    }
-    if (project_backendLanguage == "") {
-      alert("Project back-end language cannot be empty.");
-      return false;
-    }
-    if (project_link == "") {
-      alert("Project link cannot be empty.");
-      return false;
-    }
-  }
 </script>
 
 
