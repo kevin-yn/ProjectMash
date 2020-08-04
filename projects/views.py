@@ -3,7 +3,7 @@ from django.template import loader
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
-from .models import Projects
+from .models import Projects, Comparison_Pair
 from django.db import connection
 from .generate_comparison_pair import generate
 
@@ -23,7 +23,6 @@ def index(request):
         project_backendLanguage = request.POST.get(
             'project_backendLanguage', 'nothing')
         project_link = request.POST.get('project_link', 'nothing')
-        
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO projects_projects (project_name, project_backendLanguage, project_summary, project_link) VALUES (%s, %s, %s, %s)", [
                            project_name, project_backendLanguage, project_summary, project_link])
@@ -43,7 +42,7 @@ def detail(request, _id):
         project_link = request.POST.get('project_link', 'nothing')
 
         with connection.cursor() as cursor:
-            cursor.execute('UPDATE projects_projects SET project_name = %s, project_link = %s, project_summary = %s, project_backendLanguage = %s WHERE id = %s', 
+            cursor.execute('UPDATE projects_projects SET project_name = %s, project_link = %s, project_summary = %s, project_backendLanguage = %s WHERE id = %s',
                            [project_name, project_link, project_summary, project_backendLanguage, _id])
             row = cursor.fetchone()
             print(row)
@@ -86,3 +85,31 @@ def display_search_page(request):
 def generate_view(request):
     generate()
     return HttpResponseRedirect(reverse('projects:index'))
+
+def display_vote_page(request):
+    template = loader.get_template('projects/vote.html')
+    context = {
+
+    }
+    # return HttpResponseRedirect(reverse('projects:vote_process'))
+    return HttpResponse(template.render(context, request))
+
+def vote_process(request):
+    # question = get_object_or_404(Question, pk=question_id)
+    data = request.POST.copy()
+    # if data.get('choice') == None:
+    #     return render(request, 'projects/vote.html', {
+    #         # 'comparison_pair': comparison_pair,
+    #         # 'error_message': "You didn't select a choice.",
+    #     })
+    choice = data.get('choice')
+    feedback1 = data.get('feedback1')
+    feedback2 = data.get('feedback2')
+    print(choice, feedback1, feedback2)
+    # if (choice == "choiceA"):
+    #     project = Projects.objects.raw('SELECT* FROM projects_projects WHERE id = %s', [_id])
+    template = loader.get_template('projects/vote_process.html')
+    context = {
+
+    }
+    return HttpResponse(template.render(context, request))
