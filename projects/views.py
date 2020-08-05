@@ -9,6 +9,7 @@ from .generate_comparison_pair import generate
 import random
 from urllib import parse
 from urllib.parse import urlparse
+from projects.elo_rating import elo_rating
 
 def index(request):
     if request.method == 'GET':
@@ -35,9 +36,10 @@ def index(request):
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO projects_projects (project_name, project_backendLanguage, project_summary, project_link) VALUES (%s, %s, %s, %s)", [
                            project_name, project_backendLanguage, project_summary, project_link])
+            # insert into score tabel for this project
             cursor.execute(
                 "INSERT INTO projects_score(project_id, score, first_criterion_score, second_criterion_score, third_criterion_score) VALUES((SELECT id FROM projects_projects WHERE project_name=%s LIMIT 1), 0, 0, 0, 0)", [project_name])
-        # insert into score tabel for this project
+
 
         return HttpResponseRedirect(reverse('projects:index'))
 
@@ -114,36 +116,74 @@ def vote_process(request, _id):
     # use the id get the comparison_pair
     comparison_pair = Comparison_Pair.objects.raw(
         'SELECT * FROM projects_comparison_pair WHERE id = %s', [_id,])[0]
-    scoreA = Score.objects.raw(
+    scoreAObject = Score.objects.raw(
         'SELECT * FROM projects_score WHERE project_id = %s', [comparison_pair.projectA.id]
-    )
-    scoreB = Score.objects.raw(
+    )[0]
+    scoreBObject = Score.objects.raw(
         'SELECT * FROM projects_score WHERE project_id = %s', [
             comparison_pair.projectB.id]
-    )
+    )[0]
     data = request.POST.copy()
     criterion = data.get('criterion', 'default')
     choice = data.get('choice')
+    actual = 1 # used for the elo rating function
     # update the Score
+    if(choice == 'rB'):
+        actual = 0
+    updatedScores = elo_rating(scoreAObject.score, scoreBObject.score, 30, actual)
 
-
+    with connection.cursor() as cursor:
+        cursor.execute('UPDATE projects_score SET score = %s WHERE project_id = %s', [
+                        updatedScores[0], scoreAObject.project_id])
+        cursor.execute('UPDATE projects_score SET score = %s WHERE project_id = %s', [
+                       updatedScores[1], scoreBObject.project_id])
     # update the feedBack only when necessary
+    if(criterion != 'default'):
+        if(criterion == '1'):
+            newScoreA = scoreAObject.first_criterion_score + 1
+            if(0 == actual):
+                newScoreA = scoreAObject.first_criterion_score - 1
+            with connection.cursor() as cursor:
+                cursor.execute('UPDATE projects_score SET first_criterion_score = %s WHERE project_id = %s', [
+                    newScoreA, scoreAObject.project_id])
+            
+            newScoreB = scoreBObject.first_criterion_score + 1
+            if(1 == actual):
+                newScoreB = scoreBObject.first_criterion_score - 1
+            with connection.cursor() as cursor:
+                cursor.execute('UPDATE projects_score SET first_criterion_score = %s WHERE project_id = %s', [
+                    newScoreB, scoreBObject.project_id])
+        elif(criterion == '2'):
+            newScoreA = scoreAObject.second_criterion_score + 1
+            if(0 == actual):
+                newScoreA = scoreAObject.second_criterion_score - 1
+            with connection.cursor() as cursor:
+                cursor.execute('UPDATE projects_score SET second_criterion_score = %s WHERE project_id = %s', [
+                    newScoreA, scoreAObject.project_id])
+
+            newScoreB = scoreBObject.second_criterion_score + 1
+            if(1 == actual):
+                newScoreB = scoreBObject.second_criterion_score - 1
+            with connection.cursor() as cursor:
+                cursor.execute('UPDATE projects_score SET second_criterion_score = %s WHERE project_id = %s', [
+                    newScoreB, scoreBObject.project_id])
+        elif(criterion == '3'):
+            newScoreA = scoreAObject.third_criterion_score + 1
+            if(0 == actual):
+                newScoreA = scoreAObject.third_criterion_score - 1
+            with connection.cursor() as cursor:
+                cursor.execute('UPDATE projects_score SET third_criterion_score = %s WHERE project_id = %s', [
+                    newScoreA, scoreAObject.project_id])
+
+            newScoreB = scoreBObject.third_criterion_score + 1
+            if(1 == actual):
+                newScoreB = scoreBObject.third_criterion_score - 1
+            with connection.cursor() as cursor:
+                cursor.execute('UPDATE projects_score SET third_criterion_score = %s WHERE project_id = %s', [
+                    newScoreB, scoreBObject.project_id])
 
 
 
-    # question = get_object_or_404(Question, pk=question_id)
-    # data = request.POST.copy()
-    # if data.get('choice') == None:
-    #     return render(request, 'projects/vote.html', {
-    #         # 'comparison_pair': comparison_pair,
-    #         # 'error_message': "You didn't select a choice.",
-    #     })
-    # choice = data.get('choice')
-    # feedback1 = data.get('feedback1')
-    # feedback2 = data.get('feedback2')
-    # print(choice, feedback1, feedback2)
-    # if (choice == "choiceA"):
-    #     project = Projects.objects.raw('SELECT* FROM projects_projects WHERE id = %s', [_id])
     
     
     template = loader.get_template('projects/vote_process.html')
@@ -151,3 +191,19 @@ def vote_process(request, _id):
 
     }
     return HttpResponse(template.render(context, request))
+
+
+def feedback(request, _id):
+    threshold = 1
+    with connection.cursor() as cursor:
+        cursor.execute(
+            'SELECT* FROM (projects_projects JOIN projects_score ON projects_score.project_id = projects_projects.id) WHERE id = %s', [_id])
+        project = cursor.fetchone()
+    return render(request, 'projects/feedback.html', {
+        'project_name': project[1],
+        'score': project[5],
+        'firstScore': project[7],
+        'secondScore': project[8],
+        'thirdScore': project[9],
+        'hthreshold': threshold,
+        'lthreshold': threshold * -1})

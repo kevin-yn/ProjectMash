@@ -22,4 +22,6 @@ urlpatterns = [
     path('generate', views.generate_view, name='generate_view'),
     path('vote/', views.display_vote_page, name='vote'),
     path('vote_process/<int:_id>', views.vote_process, name = 'vote_process'),
+    # display feedback for one project
+    path('feedback/<int:_id>', views.feedback, name='feedback'),
 ]

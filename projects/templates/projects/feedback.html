@@ -1,0 +1,33 @@
+{% include "./partials/header.html" %}
+
+<div class="container">
+    <h1>Feedbacks for {{project_name}}</h1>
+    <h3>Score: {{score}}</h3>
+    <h2>Strength</h2>
+    <ul class="list-group">
+        {% if firstScore >= hthreshold%}
+            <li class="list-group-item">techinical difficulty</li>
+        {% endif %}
+        {% if secondScore >= hthreshold %}
+            <li class="list-group-item">creativity</li>
+        {% endif %}
+        {% if thirdScore >= hthreshold %}
+            <li class="list-group-item">user interface</li>
+        {% endif %}
+    </ul>
+    <h2>Weakness</h2>
+    <ul class="list-group">
+        {% if firstScore <= lthreshold %}
+            <li class="list-group-item">techinical difficulty</li>
+        {% endif %}
+        {% if secondScore <= lthreshold %}
+            <li class="list-group-item">creativity</li>
+        {% endif %}
+        {% if thirdScore <= lthreshold %}
+            <li class="list-group-item">user interface</li>
+        {% endif %}
+    </ul>
+</div>
+
+
+{% include "./partials/footer.html" %}
