@@ -37,8 +37,10 @@ def index(request):
             cursor.execute("INSERT INTO projects_projects (project_name, project_backendLanguage, project_summary, project_link) VALUES (%s, %s, %s, %s)", [
                            project_name, project_backendLanguage, project_summary, project_link])
             # insert into score tabel for this project
+            cursor.execute('SELECT id FROM projects_projects WHERE id NOT IN(SELECT project_id FROM projects_score) LIMIT 1')
+            id = cursor.fetchone()[0]
             cursor.execute(
-                "INSERT INTO projects_score(project_id, score, first_criterion_score, second_criterion_score, third_criterion_score) VALUES((SELECT id FROM projects_projects WHERE project_name=%s LIMIT 1), 0, 0, 0, 0)", [project_name])
+                "INSERT INTO projects_score(project_id, score, first_criterion_score, second_criterion_score, third_criterion_score) VALUES(%s, 1400, 0, 0, 0)", [id])
 
 
         return HttpResponseRedirect(reverse('projects:index'))
