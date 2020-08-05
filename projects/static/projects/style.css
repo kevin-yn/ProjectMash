@@ -4,7 +4,7 @@ html {
 
 body {
     background-image: url("/static/projects/art/1.jpg") ;
-    color: rgb(211, 212, 223);
+    color: white;
     height: 100%;
     position: relative;
     text-align: center;
@@ -16,11 +16,7 @@ body {
 }
 
 a {
-    color: rgb(211, 212, 223);
-}
-
-.nav-link {
-    color: rgb(211, 212, 223);
+    color: white;
 }
 
 nav.navbar.navbar-expand-lg.navbar-light.bg-light > div.collapse.navbar-collapse > ul.navbar-nav.mr-auto > li.nav-item > a.nav-link {

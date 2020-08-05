@@ -27,11 +27,11 @@
 
 <div class="container">
   <h1 style="text-align:center;border:3px solid; padding:10px; width:70%; margin:auto">
-    Score Board
+    Score Board TOP 10
   </h1>
     <ul style="border: 3px solid; border-top:none; padding:10px; width:70%; margin: auto">
       {% for p in allProjects %}
-          <li style="margin-left:40px;font-size:25px;">{{ p.project_name }} --- {{ p.score }}</li>
+          <h3><a href="{% url 'projects:feedback' p.project_id%}">{{ p.project_name }} --- {{ p.score }}</a></h3><br>
       {% endfor %}
     </ul>
 <!--

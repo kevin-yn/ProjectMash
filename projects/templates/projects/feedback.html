@@ -2,29 +2,32 @@
 
 <div class="container">
     <h1>Feedbacks for {{project_name}}</h1>
-    <h3>Score: {{score}}</h3>
-    <h2>Strength</h2>
+    <h2>Score: {{score}}</h2><br>
+    <h4>Strength:</h4>
+    
     <ul class="list-group">
         {% if firstScore >= hthreshold%}
-            <li class="list-group-item">techinical difficulty</li>
+            <span>techinical difficulty</span>
         {% endif %}
         {% if secondScore >= hthreshold %}
-            <li class="list-group-item">creativity</li>
+            <span>creativity</span>
         {% endif %}
         {% if thirdScore >= hthreshold %}
-            <li class="list-group-item">user interface</li>
+            <span>user interface</span>
         {% endif %}
     </ul>
-    <h2>Weakness</h2>
+    <br>
+    <br>
+    <h4>Weakness:</h4>
     <ul class="list-group">
         {% if firstScore <= lthreshold %}
-            <li class="list-group-item">techinical difficulty</li>
+            <span>techinical difficulty</span>
         {% endif %}
         {% if secondScore <= lthreshold %}
-            <li class="list-group-item">creativity</li>
+            <span>creativity</span>
         {% endif %}
         {% if thirdScore <= lthreshold %}
-            <li class="list-group-item">user interface</li>
+            <span>user interface</span>
         {% endif %}
     </ul>
 </div>

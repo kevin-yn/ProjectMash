@@ -38,8 +38,11 @@ def index(request):
             # insert into score tabel for this project
             cursor.execute('SELECT id FROM projects_projects WHERE id NOT IN(SELECT project_id FROM projects_score) LIMIT 1')
             id = cursor.fetchone()[0]
+            # generate score
             cursor.execute(
                 "INSERT INTO projects_score(project_id, score, first_criterion_score, second_criterion_score, third_criterion_score) VALUES(%s, 1400, 0, 0, 0)", [id])
+            # generate pair
+            generate(id)
 
 
         return HttpResponseRedirect(reverse('projects:index'))
@@ -102,9 +105,9 @@ def display_search_page(request):
     }
     return HttpResponse(template.render(context, request))
 
-def generate_view(request):
-    generate()
-    return HttpResponseRedirect(reverse('projects:index'))
+# def generate_view(request):
+#     generate()
+#     return HttpResponseRedirect(reverse('projects:index'))
 
 def display_vote_page(request):
     template = loader.get_template('projects/vote.html')
@@ -133,6 +136,12 @@ def vote_process(request, _id):
     criterion = data.get('criterion', 'default')
     choice = data.get('choice')
     actual = 1 # used for the elo rating function
+    # update the count
+    newCount = comparison_pair.count + 1
+    with connection.cursor() as cursor:
+        cursor.execute('UPDATE projects_comparison_pair SET count = %s WHERE id = %s', [
+            newCount, comparison_pair.id])
+    
     # update the Score
     if(choice == 'rB'):
         actual = 0
@@ -209,7 +218,7 @@ def vote_process(request, _id):
 def scoreBoard(request):
     template = loader.get_template('projects/scoreBoard.html')
     allProjects = Score.objects.raw(
-        'SELECT* FROM (projects_projects JOIN projects_score ON projects_score.project_id = projects_projects.id) ORDER BY projects_score.score DESC')
+        'SELECT* FROM (projects_projects JOIN projects_score ON projects_score.project_id = projects_projects.id) ORDER BY projects_score.score  DESC LIMIT 10 ')
     # print(projects)
     context = {
         'allProjects' : allProjects,

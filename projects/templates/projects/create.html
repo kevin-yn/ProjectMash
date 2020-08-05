@@ -1,17 +1,17 @@
 {% include "./partials/header.html" %}
 
 <div class="container">
-    <h1>CREATE NEW PROJECT</h1>
+    <h1>CREATE NEW PROJECT</h1><br>
     <form action="{% url 'projects:index'%}" name="createForm" onsubmit="return validateForm()" method="post">
         {% csrf_token %}
         <label for="">Project Name</label>
-        <input name="project_name" type="text" placeholder="project_name"><br>
+        <input name="project_name" type="text" placeholder="project_name"><br><br>
         <label for="">Project Summary</label>
-        <textarea name="project_summary" id="project_summary" cols="30" rows="2"></textarea> <br>
+        <textarea name="project_summary" id="project_summary" cols="30" rows="2"></textarea> <br><br>
         <label for="">Backend Language</label>
-        <input name="project_backendLanguage" type="text" placeholder="project_backendLanguage"><br>
+        <input name="project_backendLanguage" type="text" placeholder="project_backendLanguage"><br><br>
         <label for="">Link to the demo video</label>
-        <input name="project_link" type="text" placeholder="project_link"><br>
+        <input name="project_link" type="text" placeholder="project_link"><br><br>
         <input type="submit" value="CREATE">
     </form>
 </div>
