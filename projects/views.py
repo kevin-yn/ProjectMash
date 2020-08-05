@@ -28,7 +28,7 @@ def index(request):
             cursor.execute("INSERT INTO projects_projects (project_name, project_backendLanguage, project_summary, project_link) VALUES (%s, %s, %s, %s)", [
                            project_name, project_backendLanguage, project_summary, project_link])
             cursor.execute(
-                "INSERT INTO projects_score(project_id, score, first_criterion_score, second_criterion_score, third_criterion_score) VALUES((SELECT id FROM projects_projects WHERE project_name=%s), 0, 0, 0, 0)", [project_name])
+                "INSERT INTO projects_score(project_id, score, first_criterion_score, second_criterion_score, third_criterion_score) VALUES((SELECT id FROM projects_projects WHERE project_name=%s LIMIT 1), 0, 0, 0, 0)", [project_name])
         # insert into score tabel for this project
         
         return HttpResponseRedirect(reverse('projects:index'))
@@ -64,9 +64,10 @@ def edit(request, _id):
     return render(request, 'projects/edit.html', {'project': project[0]})
 
 def delete(request, _id):
-    with connection.cursor() as cursor:
-        cursor.execute('DELETE FROM projects_projects WHERE id = %s',
-                       [_id])
+    # with connection.cursor() as cursor:
+    #     cursor.execute('DELETE FROM projects_projects WHERE id = %s',
+    #                    [_id])
+    Projects.objects.filter(id=_id).delete()
     return HttpResponseRedirect(reverse('projects:index'))
 
 def search(request):
@@ -104,24 +105,39 @@ def display_vote_page(request):
 def vote_process(request, _id):
     # use the id get the comparison_pair
     comparison_pair = Comparison_Pair.objects.raw(
-        'SELECT * FROM projects_comparison_pair WHERE id = %s', [_id,])
-    
+        'SELECT * FROM projects_comparison_pair WHERE id = %s', [_id,])[0]
+    scoreA = Score.objects.raw(
+        'SELECT * FROM projects_score WHERE project_id = %s', [comparison_pair.projectA.id]
+    )
+    scoreB = Score.objects.raw(
+        'SELECT * FROM projects_score WHERE project_id = %s', [
+            comparison_pair.projectB.id]
+    )
+    data = request.POST.copy()
+    criterion = data.get('criterion', 'default')
+    choice = data.get('choice')
+    # update the Score
+
+
+    # update the feedBack only when necessary
 
 
 
     # question = get_object_or_404(Question, pk=question_id)
-    data = request.POST.copy()
+    # data = request.POST.copy()
     # if data.get('choice') == None:
     #     return render(request, 'projects/vote.html', {
     #         # 'comparison_pair': comparison_pair,
     #         # 'error_message': "You didn't select a choice.",
     #     })
-    choice = data.get('choice')
-    feedback1 = data.get('feedback1')
-    feedback2 = data.get('feedback2')
-    print(choice, feedback1, feedback2)
+    # choice = data.get('choice')
+    # feedback1 = data.get('feedback1')
+    # feedback2 = data.get('feedback2')
+    # print(choice, feedback1, feedback2)
     # if (choice == "choiceA"):
     #     project = Projects.objects.raw('SELECT* FROM projects_projects WHERE id = %s', [_id])
+    
+    
     template = loader.get_template('projects/vote_process.html')
     context = {
 

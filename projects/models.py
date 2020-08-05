@@ -33,3 +33,5 @@ class Score(models.Model):
     first_criterion_score = models.IntegerField(default=0)
     second_criterion_score = models.IntegerField(default=0)
     third_criterion_score = models.IntegerField(default=0)
+    def __str__(self):
+        return project
