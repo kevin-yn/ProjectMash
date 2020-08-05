@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html>
+{% include "./partials/header.html" %}
 <style>
-h1 {
+.vote_form > h1 {
   margin: 40px;
 }
-p {
+.vote_form > p {
   font-size: 160%;
   margin: 80px;
 }
-div {
+.vote_form > div {
   font-size: 160%;
   margin: 80px;
 }
@@ -43,7 +42,7 @@ div {
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 
-<form name="voteform" action="{% url 'projects:vote_process' %}" onsubmit="return validateForm()" method="post">
+<form class = 'vote_form' name="voteform" action="{% url 'projects:vote_process' comparison_pair.id %}" onsubmit="return validateForm()" method="post">
   {% csrf_token %}
 
   <p style="border: 3px solid; border-top:none; padding:10px; width:50%; margin:auto">
@@ -51,7 +50,7 @@ div {
       <label for="choiceA" style="margin:0px 0px 0px 140px">Project Name: {{ comparison_pair.projectA.project_name }}</label><br>
       <h style="margin:0px 0px 0px 140px">Project Demo Video:</h><br>
       <iframe width="420" height="315" style="margin-left: auto;margin-right: auto;display: block"
-        src="{{comparison_pair.projectA.project_link}}">
+        src="https://www.youtube.com/embed/A3ubhW5_GjY?controls=1">
       </iframe><br>
       <!-- <a href="{{ comparison_pair.projectA.project_link }}">link to projectA demo video</a><br> -->
       <h style="margin:0px 0px 0px 140px">Project Summary:</h>
@@ -72,11 +71,11 @@ div {
 
   <p style="border: 3px solid; border-top:none; padding:10px; width:50%; margin:auto">
     <h style="font-weight:bold;font-size:25px;margin: 0px 0px 0px 80px;">Which project is better?</h><br>
-    <input type="radio" name="choice" id="r1" value="choiceA" onclick="f1()" style="margin:0px 0px 0px 120px"> projectA<br>
-    <input type="radio" name="choice" id="r2" value="choiceB" onclick="f2()" style="margin:0px 0px 0px 120px"> projectB<br>
+    <input type="radio" name="choice" id="r1" value="choiceA" onclick="display_criterion_choices()" style="margin:0px 0px 0px 120px"> projectA<br>
+    <input type="radio" name="choice" id="r2" value="choiceB" onclick="display_criterion_choices()" style="margin:0px 0px 0px 120px"> projectB<br>
   </p>
 
-  <div id="div1" style='display:none; border: 3px solid; border-top:none; padding:10px; width:50%; margin:auto'>
+  <!-- <div id="div1" style='display:none; border: 3px solid; border-top:none; padding:10px; width:50%; margin:auto'>
     <h style="font-weight:bold;font-size:25px;margin: 0px 0px 0px 80px;">Please provide your feedback.</h><br>
     <input type="checkbox" name="feedback1" value="diffA" style="margin:0px 0px 0px 120px"> projectA is better because of its difficulty</input><br>
     <input type="checkbox" name="feedback2" value="creatA" style="margin:0px 0px 0px 120px"> projectA is better because of its creativity</input><br>
@@ -86,7 +85,16 @@ div {
     <h style="font-weight:bold;font-size:25px;margin: 0px 0px 0px 80px;">Please provide your feedback.</h><br>
     <input type="checkbox" name="feedback1" value="diffB" style="margin:0px 0px 0px 120px"> projectB is better because of its difficulty</input><br>
     <input type="checkbox" name="feedback2" value="creatB" style="margin:0px 0px 0px 120px"> projectB is better because of its creativity</input><br>
-  </div>
+  </div> -->
+
+  <div id="criterion_choices" style='display:none;border: 3px solid; border-top:none; padding:10px; width:50%; margin:auto'>
+    <h style="font-weight:bold;font-size:25px;margin: 0px 0px 0px 80px;">Which criterion is this choice mostly based on</h><br>
+    <input type="checkbox" name="criterion" value="1" style="margin:0px 0px 0px 120px"> techinical difficulty </input><br>
+    <input type="checkbox" name="criterion" value="2" style="margin:0px 0px 0px 120px"> creativity </input><br>
+    <input type="checkbox" name="criterion" value="3" style="margin:0px 0px 0px 120px"> user interface </input><br>
+  </div> 
+  <!-- try to allow the user to select what percentage of each criterion is playing here -->
+  
 
 <div>
   <input type="submit" value="Submit" class='button button1'>
@@ -96,13 +104,16 @@ div {
 
 
 <script type="text/javascript">
-  function f1() {
-    document.getElementById("div1").style.display = 'block';
-    document.getElementById("div2").style.display = 'none';
-  }
-  function f2() {
-    document.getElementById("div1").style.display = "none";
-    document.getElementById("div2").style.display = "block";
+  // function f1() {
+  //   document.getElementById("div1").style.display = 'block';
+  //   document.getElementById("div2").style.display = 'none';
+  // }
+  // function f2() {
+  //   document.getElementById("div1").style.display = "none";
+  //   document.getElementById("div2").style.display = "block";
+  // }
+  function display_criterion_choices() {
+    document.getElementById("criterion_choices").style.display = 'block'
   }
   function validateForm() {
     x = document.forms["voteform"]["choice"].value;
@@ -112,5 +123,4 @@ div {
     }
   }
 </script>
-
-</html>
+{% include "./partials/footer.html" %}

@@ -3,7 +3,7 @@ from django.template import loader
 from django.urls import reverse
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
-from .models import Projects, Comparison_Pair
+from .models import Projects, Comparison_Pair, Score
 from django.db import connection
 from .generate_comparison_pair import generate
 import random
@@ -27,8 +27,10 @@ def index(request):
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO projects_projects (project_name, project_backendLanguage, project_summary, project_link) VALUES (%s, %s, %s, %s)", [
                            project_name, project_backendLanguage, project_summary, project_link])
-            row = cursor.fetchone()
-            print(row)
+            cursor.execute(
+                "INSERT INTO projects_score(project_id, score, first_criterion_score, second_criterion_score, third_criterion_score) VALUES((SELECT id FROM projects_projects WHERE project_name=%s), 0, 0, 0, 0)", [project_name])
+        # insert into score tabel for this project
+        
         return HttpResponseRedirect(reverse('projects:index'))
 
 def detail(request, _id):
@@ -99,7 +101,14 @@ def display_vote_page(request):
 
     return HttpResponse(template.render(context, request))
 
-def vote_process(request):
+def vote_process(request, _id):
+    # use the id get the comparison_pair
+    comparison_pair = Comparison_Pair.objects.raw(
+        'SELECT * FROM projects_comparison_pair WHERE id = %s', [_id,])
+    
+
+
+
     # question = get_object_or_404(Question, pk=question_id)
     data = request.POST.copy()
     # if data.get('choice') == None:
