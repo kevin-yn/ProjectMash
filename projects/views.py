@@ -7,6 +7,8 @@ from .models import Projects, Comparison_Pair, Score
 from django.db import connection
 from .generate_comparison_pair import generate
 import random
+from urllib import parse
+from urllib.parse import urlparse
 
 def index(request):
     if request.method == 'GET':
@@ -24,13 +26,19 @@ def index(request):
         project_backendLanguage = request.POST.get(
             'project_backendLanguage', 'nothing')
         project_link = request.POST.get('project_link', 'nothing')
+        # url = "https://www.youtube.com/watch?v=VgC4b9K-gYU"
+        url_parsed = parse.urlparse(project_link)
+        qsl = parse.parse_qs(url_parsed.query)
+        host = '{uri.scheme}://{uri.netloc}/'.format(uri=url_parsed)
+        if (host == "https://www.youtube.com/"):
+            project_link = "https://www.youtube.com/embed/"+qsl['v'][0]+"?controls=1"
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO projects_projects (project_name, project_backendLanguage, project_summary, project_link) VALUES (%s, %s, %s, %s)", [
                            project_name, project_backendLanguage, project_summary, project_link])
             cursor.execute(
                 "INSERT INTO projects_score(project_id, score, first_criterion_score, second_criterion_score, third_criterion_score) VALUES((SELECT id FROM projects_projects WHERE project_name=%s LIMIT 1), 0, 0, 0, 0)", [project_name])
         # insert into score tabel for this project
-        
+
         return HttpResponseRedirect(reverse('projects:index'))
 
 def detail(request, _id):
