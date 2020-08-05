@@ -58,12 +58,12 @@ def detail(request, _id):
         project_backendLanguage = request.POST.get(
             'project_backendLanguage', 'nothing')
         project_link = request.POST.get('project_link', 'nothing')
-        url_parsed = parse.urlparse(project_link)
-        qsl = parse.parse_qs(url_parsed.query)
-        host = '{uri.scheme}://{uri.netloc}/'.format(uri=url_parsed)
-        if (host == "https://www.youtube.com/"):
-            project_link = "https://www.youtube.com/embed/" + \
-                qsl['v'][0]+"?controls=1"
+        # url_parsed = parse.urlparse(project_link)
+        # qsl = parse.parse_qs(url_parsed.query)
+        # host = '{uri.scheme}://{uri.netloc}/'.format(uri=url_parsed)
+        # if (host == "https://www.youtube.com/"):
+        #     project_link = "https://www.youtube.com/embed/" + \
+        #         qsl['v'][0]+"?controls=1"
         with connection.cursor() as cursor:
             cursor.execute('UPDATE projects_projects SET project_name = %s, project_link = %s, project_summary = %s, project_backendLanguage = %s WHERE id = %s',
                            [project_name, project_link, project_summary, project_backendLanguage, _id])
