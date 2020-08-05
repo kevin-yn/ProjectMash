@@ -4,7 +4,18 @@
     <h1>SEARCH PROJECT</h1><br>
 
     <form action="{% url 'projects:index' %}search" method="GET">
-        <input type="text" name="project_name" id="project_name" placeholder="project_name"> 
+        <input type="text" name="project_name" id="project_name" placeholder="project_name"> <br><br>
+        <input type="text" name="backendLanguage" id="backendLanguage" placeholder="backendLanguage"><br><br>
+        <input type="submit">
+    </form>
+</div>
+
+<div class="container">
+    <h1>SEARCH Language</h1><br>
+
+    <form action="{% url 'projects:index' %}search_lan" method="GET">
+        <input type="text" name="backendLanguage" id="backendLanguage" placeholder="backendLanguage"><br><br>
+        <input type="submit">
     </form>
 </div>
 

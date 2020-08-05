@@ -18,6 +18,7 @@ urlpatterns = [
     path('search_form', views.display_search_page, name = 'search_form'),
     # search route
     path('search', views.search, name='search'),
+    path('search_lan', views.search_lan, name='search_lan'),
     # generate all possible pairs from current list of projects
     # path('generate', views.generate_view, name='generate_view'),
     path('vote/', views.display_vote_page, name='vote'),

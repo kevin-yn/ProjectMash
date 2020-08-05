@@ -1,9 +1,10 @@
 {% include "./partials/header.html" %}
 
 <div class="container">
-    <h1>{{project.project_name}}</h1>
+    <h1>{{project.project_name}}</h1><br>
     <h3>{{project.project_summary}}</h3>
-    <h4>{{project.project_backendLanguage}}</h4>
+    <br>
+    <h5>Backend Language: {{project.project_backendLanguage}}</h5><br>
     <iframe width="420" height="315" style="margin-left: auto;margin-right: auto;display: block"
         src="{{ project.project_link }}">
     </iframe><br>

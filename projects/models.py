@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class Projects(models.Model):
     project_name = models.CharField(max_length=30)
-    project_summary = models.CharField(max_length=200)
+    project_summary = models.CharField(max_length=1000)
     project_link = models.CharField(max_length=200)
     project_backendLanguage = models.CharField(max_length=30)
 
