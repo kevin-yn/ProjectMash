@@ -4,7 +4,7 @@
     {% if latest_project_list %}
     <ul>
         {% for project in latest_project_list %}
-        <a href="{% url 'projects:detail' project.id %}">{{ project.project_name}}</a><br>
+        <h4><a href="{% url 'projects:detail' project.id %}">{{ project.project_name}}</a></h4><br>
         {% endfor %}
     </ul>
     {% else %}

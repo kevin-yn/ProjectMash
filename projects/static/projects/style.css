@@ -3,19 +3,32 @@ html {
 }
 
 body {
-    background-image: url("/static/projects/art/background2.jpg");
-    color: black;
+    background-image: url("/static/projects/art/1.jpg") ;
+    color: rgb(211, 212, 223);
     height: 100%;
     position: relative;
     text-align: center;
 }
 
 .navbar {
-    background-image: url("/static/projects/art/1.jpg");
+    background-image: url("/static/projects/art/Frost.jpg");
+    color: rgb(211, 212, 223);
 }
 
 a {
-    color: black;
+    color: rgb(211, 212, 223);
+}
+
+.nav-link {
+    color: rgb(211, 212, 223);
+}
+
+nav.navbar.navbar-expand-lg.navbar-light.bg-light > div.collapse.navbar-collapse > ul.navbar-nav.mr-auto > li.nav-item > a.nav-link {
+    color: rgb(211, 212, 223);
+}
+
+#haha {
+    color: rgb(211, 212, 223);
 }
 
 .container {
