@@ -24,5 +24,12 @@ class Comparison_Pair(models.Model):
 
 
 class Score(models.Model):
-    project = models.ForeignKey(Projects, on_delete = models.CASCADE)
+    project = models.OneToOneField(
+        Projects,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
     score = models.IntegerField(default=0)
+    first_criterion_score = models.IntegerField(default=0)
+    second_criterion_score = models.IntegerField(default=0)
+    third_criterion_score = models.IntegerField(default=0)
