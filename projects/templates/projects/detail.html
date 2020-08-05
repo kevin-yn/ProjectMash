@@ -4,7 +4,9 @@
     <h1>{{project.project_name}}</h1>
     <h3>{{project.project_summary}}</h3>
     <h4>{{project.project_backendLanguage}}</h4>
-    <a href="{{project.project_link}}">demo</a><br>
+    <iframe width="420" height="315" style="margin-left: auto;margin-right: auto;display: block"
+        src="{{ project.project_link }}">
+    </iframe><br>
     <a class="btn btn-primary" href="{% url 'projects:detail' project.id%}edit">EDIT</a>
     <a class="btn btn-danger" href="{% url 'projects:detail' project.id%}delete">DELETE</a>
     <a class="btn btn-primary" href="{% url 'projects:feedback' project.id%}">FEEDBACK</a>

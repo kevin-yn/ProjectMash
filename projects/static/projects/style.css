@@ -1,0 +1,24 @@
+html {
+  height: 100%;
+}
+
+body {
+    background-image: url("/static/projects/art/background2.jpg");
+    color: black;
+    height: 100%;
+    position: relative;
+    text-align: center;
+}
+
+.navbar {
+    background-image: url("/static/projects/art/1.jpg");
+}
+
+a {
+    color: black;
+}
+
+.container {
+    margin-top: 3em;
+}
+

@@ -1,18 +1,16 @@
 {% include "./partials/header.html" %}
 
-
 <div class="container">
     {% if latest_project_list %}
     <ul>
         {% for project in latest_project_list %}
-        <li><a href="{% url 'projects:detail' project.id %}">{{ project.project_name}}</a></li>
+        <a href="{% url 'projects:detail' project.id %}">{{ project.project_name}}</a><br>
         {% endfor %}
     </ul>
     {% else %}
     <p>No projects are available.</p>
     {% endif %}
 </div>
-
 
 
 

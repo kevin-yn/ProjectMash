@@ -46,33 +46,33 @@
   {% csrf_token %}
 
   <p style="border: 3px solid; border-top:none; padding:10px; width:50%; margin:auto">
-      <h style="font-weight:bold;font-size:25px;margin: 0px 0px 0px 80px;">Project A:</h><br>
-      <label for="choiceA" style="margin:0px 0px 0px 140px">Project Name: {{ comparison_pair.projectA.project_name }}</label><br>
-      <h style="margin:0px 0px 0px 140px">Project Demo Video:</h><br>
+      <h style="font-weight:bold;font-size:25px;">Project A:</h><br>
+      <label for="choiceA" >Project Name: {{ comparison_pair.projectA.project_name }}</label><br>
+      <h >Project Demo Video:</h><br>
       <iframe width="420" height="315" style="margin-left: auto;margin-right: auto;display: block"
         src="{{ comparison_pair.projectA.project_link }}">
       </iframe><br>
       <!-- <a href="{{ comparison_pair.projectA.project_link }}">link to projectA demo video</a><br> -->
-      <h style="margin:0px 0px 0px 140px">Project Summary:</h><br>
-      <label for="choiceA" style="margin:0px 0px 0px 180px;width:450px; word-wrap:break-word;">{{ comparison_pair.projectA.project_summary }}</label>
+      <h >Project Summary:</h><br>
+      <label for="choiceA" style="width:450px; word-wrap:break-word;">{{ comparison_pair.projectA.project_summary }}</label>
 
   </p>
 
   <p style="border: 3px solid; border-top:none; padding:10px; width:50%; margin:auto">
-      <h style="font-weight:bold;font-size:25px;margin: 0px 0px 0px 80px;">Project B:</h><br>
-      <label for="choiceB" style="margin:0px 0px 0px 140px">Project Name: {{ comparison_pair.projectB.project_name }}</label><br>
-      <h style="margin:0px 0px 0px 140px">Project Demo Video:</h><br>
+      <h style="font-weight:bold;font-size:25px;">Project B:</h><br>
+      <label for="choiceB" >Project Name: {{ comparison_pair.projectB.project_name }}</label><br>
+      <h >Project Demo Video:</h><br>
       <iframe width="420" height="315" style="margin-left: auto;margin-right: auto;display: block"
         src="{{ comparison_pair.projectB.project_link }}">
       </iframe><br>
-      <h style="margin:0px 0px 0px 140px">Project Summary:</h><br>
-      <label for="choiceA" style="margin:0px 0px 0px 180px; width:450px; word-wrap:break-word;">{{ comparison_pair.projectB.project_summary }}</label>
+      <h >Project Summary:</h><br>
+      <label for="choiceA" style=" width:450px; word-wrap:break-word;">{{ comparison_pair.projectB.project_summary }}</label>
   </p>
 
   <p style="border: 3px solid; border-top:none; padding:10px; width:50%; margin:auto">
     <h style="font-weight:bold;font-size:25px;margin: 0px 0px 0px 80px;">Which project is better?</h><br>
-    <input type="radio" name="choice" id="rA" value="choiceA" onclick="display_criterion_choices()" style="margin:0px 0px 0px 120px"> project A<br>
-    <input type="radio" name="choice" id="rB" value="choiceB" onclick="display_criterion_choices()" style="margin:0px 0px 0px 120px"> project B<br>
+    <input type="radio" name="choice" id="rA" value="choiceA" onclick="display_criterion_choices()"> project A<br>
+    <input type="radio" name="choice" id="rB" value="choiceB" onclick="display_criterion_choices()"> project B<br>
   </p>
 
   <!-- <div id="div1" style='display:none; border: 3px solid; border-top:none; padding:10px; width:50%; margin:auto'>
@@ -89,9 +89,9 @@
 
   <div id="criterion_choices" style='display:none;border: 3px solid; border-top:none; padding:10px; width:50%; margin:auto'>
     <h style="font-weight:bold;font-size:25px;margin: 0px 0px 0px 80px;">Which criterion is this choice mostly based on</h><br>
-    <input type="checkbox" name="criterion" value="1" style="margin:0px 0px 0px 120px"> techinical difficulty </input><br>
-    <input type="checkbox" name="criterion" value="2" style="margin:0px 0px 0px 120px"> creativity </input><br>
-    <input type="checkbox" name="criterion" value="3" style="margin:0px 0px 0px 120px"> user interface </input><br>
+    <input type="checkbox" name="criterion" value="1"> techinical difficulty </input><br>
+    <input type="checkbox" name="criterion" value="2"> creativity            </input><br>
+    <input type="checkbox" name="criterion" value="3"> user interface        </input><br>
   </div>
   <!-- try to allow the user to select what percentage of each criterion is playing here -->
 
