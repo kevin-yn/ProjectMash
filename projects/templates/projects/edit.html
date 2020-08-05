@@ -1,0 +1,20 @@
+{% include "./partials/header.html" %}
+
+<div class="container">
+    <h1>EDIT {{project.project_name}}</h1>
+    <form action="{% url 'projects:detail' project.id%}" method="post">
+        {% csrf_token %}
+            <label for="">Project Name</label>
+            <input name="project_name" type="text" placeholder="project_name" value = {{project.project_name}}><br>
+            <label for="">Project Summary</label>
+            <textarea name="project_summary" id="project_summary" cols="30" rows="2">{{project.project_summary}}</textarea> <br>
+            <label for="">Backend Language</label>
+            <input name="project_backendLanguage" type="text" placeholder="project_backendLanguage" value = {{project.project_backendLanguage}}><br>
+            <label for="">Link to the demo video</label>
+            <input name="project_link" type="text" placeholder="project_link" value = {{project.project_link}}><br>
+        <input type="submit" value="EDIT">
+    </form>
+</div>
+
+
+{% include "./partials/footer.html" %}
