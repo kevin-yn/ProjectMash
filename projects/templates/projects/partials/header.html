@@ -30,6 +30,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{%url 'projects:vote'%}">VOTE</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'projects:scoreBoard'%}">SCORE BOARD</a>
+                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" action="{% url 'projects:index' %}search" method="GET">
                 <input type="text" name="project_name" id="project_name" placeholder="project_name" aria-label="Search">

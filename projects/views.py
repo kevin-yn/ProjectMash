@@ -148,7 +148,7 @@ def vote_process(request, _id):
             with connection.cursor() as cursor:
                 cursor.execute('UPDATE projects_score SET first_criterion_score = %s WHERE project_id = %s', [
                     newScoreA, scoreAObject.project_id])
-            
+
             newScoreB = scoreBObject.first_criterion_score + 1
             if(1 == actual):
                 newScoreB = scoreBObject.first_criterion_score - 1
@@ -184,16 +184,33 @@ def vote_process(request, _id):
                 cursor.execute('UPDATE projects_score SET third_criterion_score = %s WHERE project_id = %s', [
                     newScoreB, scoreBObject.project_id])
 
+    return HttpResponseRedirect(reverse('projects:scoreBoard'))
 
 
-    
-    
+
+
+
     template = loader.get_template('projects/vote_process.html')
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         'SELECT* FROM (projects_projects JOIN projects_score ON projects_score.project_id = projects_projects.id)')
+    #     projects = cursor.fetchone()
+    projects = Projects.objects.raw(
+        'SELECT* FROM (projects_projects JOIN projects_score ON projects_score.project_id = projects_projects.id)')
     context = {
-
+        'projects' : projects,
     }
     return HttpResponse(template.render(context, request))
 
+def scoreBoard(request):
+    template = loader.get_template('projects/scoreBoard.html')
+    allProjects = Score.objects.raw(
+        'SELECT* FROM (projects_projects JOIN projects_score ON projects_score.project_id = projects_projects.id) ORDER BY projects_score.score DESC')
+    # print(projects)
+    context = {
+        'allProjects' : allProjects,
+    }
+    return HttpResponse(template.render(context, request))
 
 def feedback(request, _id):
     threshold = 1

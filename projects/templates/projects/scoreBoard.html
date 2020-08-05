@@ -1,0 +1,51 @@
+{% include "./partials/header.html" %}
+
+<style>
+  .button {
+    border: none;
+    color: white;
+    padding: 13px 26px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0 auto;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  .button1 {
+    background-color: #f44336;
+    color: white;
+    border: 2px solid #f44336;
+    border-radius: 12px;
+  }
+  .button1:hover {
+    background-color: white;
+    color: black;
+  }
+</style>
+
+<div class="container">
+  <h1 style="text-align:center;border:3px solid; padding:10px; width:70%; margin:auto">
+    Score Board
+  </h1>
+    <ul style="border: 3px solid; border-top:none; padding:10px; width:70%; margin: auto">
+      {% for p in allProjects %}
+          <li style="margin-left:40px;font-size:25px;">{{ p.project_name }} --- {{ p.score }}</li>
+      {% endfor %}
+    </ul>
+<!--
+    <p>
+        <h1 style="margin-top:30px;margin-bottom:0px;margin-right:0px;margin-left:30px;">
+        You have finished voting.</h1>
+    </p>
+    <br> -->
+
+    <div style="border: 3px solid; border-top:none; padding:10px; width:70%; margin: auto">
+        <h3 style="margin-top:10px;margin-bottom:15px;margin-right:0px;margin-left:10px;">Do you want to vote again?</h3>
+        <a class="button button1" style="margin:0 0 0 10px;font-size:15px;font-weight: bold;" href="{% url 'projects:vote' %}">Vote Again</a>
+        <h3 style="margin-top:30px;margin-bottom:15px;margin-right:0px;margin-left:10px;">Or, you can go to the home page.</h3>
+        <a class="button button1" style="margin:0 0 0 10px;font-size:15px;font-weight: bold;" href="{% url 'projects:index' %}">HOME</a>
+    </div>
+</div>
+{% include "./partials/footer.html" %}

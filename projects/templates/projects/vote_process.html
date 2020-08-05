@@ -1,5 +1,13 @@
 {% include "./partials/header.html" %}
 <div class="container">
+  <h1 style="text-align:center;border:3px solid; padding:10px; width:50%; margin:auto">
+    Score Board
+  </h1>
+  <ul>
+    {% for p in projects %}
+        <li>{{ p.project_name }}</li>
+    {% endfor %}
+  </ul>
     <p>
         <h1 style="margin-top:30px;margin-bottom:0px;margin-right:0px;margin-left:30px;">
         You have finished voting.</h1>
