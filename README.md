@@ -1,2 +1,2 @@
 # ProjectMash
-Final Project CS411SU20
+Allow people to vote for the best project
